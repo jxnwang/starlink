@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="https://unpkg.com/redux@4.2.0/dist/redux.js"></script>
+</head>
+<body>
+    <h1>Redux</h1>
+    <hr />
+    <div>
+        <h2></h2>
+        <p>
+            <button class="addBtn">click me +10</button>
+        </p>
+        <p>
+            <button class="minusBtn">click me -10</button>
+        </p>
+    </div>
+
+    <script type="text/javascript">
+        function reducer(state={num: 10}, action) {
+            if(action.type === "+") {
+                return {
+                    num: state.num + 10
+                }
+            } else if(action.type === "-") {
+                return {
+                    num: state.num - 10
+                }
+            }
+            return state;
+        }
+
+        // step1
+        const store = Redux.createStore(reducer);
+
+        function render() {
+            // view <-> store state
+            const oH2 = document.getElementsByTagName("h2")[0];
+            const val = store.getState().num;
+            oH2.innerHTML = val;
+        }
+
+        render();
+        store.subscribe(render);
+
+        const oAddBtn = document.getElementsByClassName("addBtn")[0],
+            oMinusBtn = document.getElementsByClassName("minusBtn")[0];
+
+        oAddBtn.addEventListener('click', function (){
+            // dispatch "add"
+            store.dispatch({ type: "+" })
+        }, false);
